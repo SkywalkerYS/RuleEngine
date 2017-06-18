@@ -1,0 +1,48 @@
+{
+  "RuleSet": [
+    {
+      "name": "front",
+      "Rule": {
+        "Or": {
+          "And": {
+            "In": {
+              "key": "editor",
+              "set": [1, 2, 3]
+            },
+            "Greater": {
+              "key": "version",
+              "value": "2"
+            }
+          },
+          "Equals": {
+            "key": "localtion",
+            "value": "'SH'"
+          }
+        },
+        "result": {
+          "color": "green",
+          "ver": "3"
+        }
+      }
+    },
+    {
+      "name": "voice",
+      "Rule": {
+        "And": {
+          "In": {
+            "key": "editor",
+            "set": [4, 5, 6]
+          },
+          "Greater": {
+            "key": "version",
+            "value": "3"
+          }
+        },
+        "result": {
+          "package": "com.baidu.input",
+          "style": "3"
+        }
+      }
+    }
+  ]
+}

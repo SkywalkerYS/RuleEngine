@@ -1,0 +1,34 @@
+<RuleSet name="front">
+    <Rule>
+        <Or>
+            <And>
+                <In key="packages" set="[input]">
+                </In>
+                <In key="editor" set="[1, 2, 3]">
+                </In>
+                <Less key="version" value="3">
+                </Less>
+            </And>
+            <And>
+                <In key="packages" set="[input]">
+                </In>
+                <In key="editor" set="['4', 5, 6]">
+                </In>
+                <Greater key="version" value="2">
+                </Greater>
+            </And>
+        </Or>
+        {color=red, ver=4}
+    </Rule>
+    <Rule>
+        <And>
+            <In key="packages" set="[map]">
+            </In>
+            <In key="editor" set="[4, 5, 6]">
+            </In>
+            <Greater key="version" value="3">
+            </Greater>
+        </And>
+        {color=green, ver=3}
+    </Rule>
+</RuleSet>
