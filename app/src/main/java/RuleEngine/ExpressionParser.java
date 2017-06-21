@@ -11,7 +11,7 @@ import RuleEngine.LogicOperation.AbsLogicOperation;
  * Created by ShengYang on 2017/2/23.
  */
 public class ExpressionParser {
-    private static final OperationManager operatons = OperationManager.INSTANCE;
+    private static final OperationManager operations = OperationManager.INSTANCE;
 
     public static final String SYMBOL_RESULT = "result";
 
@@ -34,14 +34,14 @@ public class ExpressionParser {
                 return null;
             }
 
-            expression = operatons.getOperation(operationName);
+            expression = operations.getOperation(operationName);
 
-            if (operatons.getOperation(operationName) != null
-                    && operatons.isLogicalOperation(operatons.getOperation(operationName))) {
+            if (operations.getOperation(operationName) != null
+                    && operations.isLogicalOperation(operations.getOperation(operationName))) {
                 ((AbsLogicOperation)expression).parseData(jsonObject);
                 parse(jsonObject);
             } else {
-                Operation operation = operatons.getOperation(operationName);
+                Operation operation = operations.getOperation(operationName);
                 if (operation != null) {
                     operation.parseData(jsonObject);
                 }

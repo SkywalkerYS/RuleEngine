@@ -41,13 +41,15 @@ public class MainActivity extends AppCompatActivity {
     public static final String SYMBOL_RESULT = "result";
 
 
+    // 测试数据
     private final static String TEXTJSON = "{\"RuleSet\":[{\"name\":\"front\","
             + "\"Rule\":{\"Or\":{\"And\":{\"In\":{\"key\":\"editor\",\"set\":[1,2,3]},"
-            + "\"Greater\":{\"key\":\"version\",\"value\":\"2\"}},\"Equals\":{\"key\":\"localtion\","
+            + "\"Greater\":{\"key\":\"version\",\"value\":\"2\"}},\"Equals\":{\"key\":\"location\","
             + "\"value\":\"'SH'\"}},\"result\":{\"color\":\"green\",\"ver\":\"3\"}}},{\"name\":\"voice\","
             + "\"Rule\":{\"And\":{\"In\":{\"key\":\"editor\",\"set\":[4,5,6]},\"Greater\":{\"key\":\"version\","
             + "\"value\":\"3\"}},\"result\":{\"package\":\"com.baidu.input\",\"style\":\"3\"}}}]}";
 
+    // 白名单是否命中的回调
     IMatchAction iMatchAction = new IMatchAction() {
         @Override
         public void successAction() {
@@ -87,12 +89,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     private void parseRule() {
         try {
             JSONObject jsonObject = new JSONObject(TEXTJSON);
 
-            JSONArray rules =  (JSONArray) jsonObject.get(SYMBOL_RULESET);
+            JSONArray rules = (JSONArray) jsonObject.get(SYMBOL_RULESET);
             JSONObject rule = null;
             String ruleName = null;
             JSONObject ruleObject = null;
@@ -117,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         Map<String, Object> bindings = new HashMap<>();
         bindings.put("editor", 4);
         bindings.put("version", 1);
-        bindings.put("localtion", "'SH'");
+        bindings.put("location", "'SH'");
 
         ruleSet.eval(bindings);
     }
@@ -134,8 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
             return buffer;
 
-
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

@@ -31,7 +31,6 @@ public class Rule {
         private JSONObject result = null;
         private String name = null;
 
-
         public Builder withName(String name) {
             this.name = name;
             return this;

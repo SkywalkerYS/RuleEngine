@@ -4,6 +4,7 @@ import java.util.Map;
 
 /**
  * Created by ShengYang on 2017/2/22.
+ * 定义支持的基本数据类型：Boolean、String、Float、Integer
  */
 public class BaseType<T> implements Expression {
 
@@ -31,6 +32,14 @@ public class BaseType<T> implements Expression {
         this.type = type;
     }
 
+    /**
+     * @param string
+     * @return 基本的数据类型只支持 Boolean、String、Float、Integer
+     * Boolean：必须是“true”或者“false”字符串
+     * String：必须以单引号'开始
+     * Float: 必须包含“.”
+     * Integer：
+     */
     public static BaseType<?> getBaseType(String string) {
 
         if (string == null) {
