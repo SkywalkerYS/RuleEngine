@@ -15,7 +15,7 @@
             }
           },
           "Equals": {
-            "key": "localtion",
+            "key": "location",
             "value": "'SH'"
           }
         },

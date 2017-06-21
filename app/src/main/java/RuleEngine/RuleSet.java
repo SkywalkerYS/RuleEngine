@@ -6,7 +6,8 @@ import java.util.Map;
 import android.util.Log;
 
 /**
- * Created by Shengang on 2017/2/23.
+ * Created by ShengYang on 2017/2/23.
+ * 维护一个Rule的列表
  */
 public class RuleSet {
 

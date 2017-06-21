@@ -21,7 +21,6 @@ public class Equals extends AbsCompareOperation {
         return new Equals();
     }
 
-
     @Override
     public boolean match(Map<String, ?> inputData) {
         Object obj = inputData.get(name);
