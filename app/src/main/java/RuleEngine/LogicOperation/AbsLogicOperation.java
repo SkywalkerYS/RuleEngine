@@ -6,9 +6,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import RuleEngine.BaseOperation.Expression;
 import RuleEngine.BaseOperation.Operation;
 import RuleEngine.OperationManager;
+import RuleTree.Rule;
 
 /**
  * Created by ShengYang on 2017/3/5.
@@ -17,7 +17,9 @@ import RuleEngine.OperationManager;
 public abstract class AbsLogicOperation extends Operation {
     // json格式，某个操作数的下的数组中每个都进行该操作
 
-    protected ArrayList<Expression> childOperand = null;
+    protected ArrayList<Operation> childOperand = null;
+
+    private Rule parent;
 
     public AbsLogicOperation(String symbol) {
         super(symbol);
@@ -34,7 +36,7 @@ public abstract class AbsLogicOperation extends Operation {
             return;
         }
         OperationManager operations = OperationManager.INSTANCE;
-        childOperand = new ArrayList<Expression>();
+        childOperand = new ArrayList<>();
         try {
             JSONArray childOp = root.names();
             JSONObject jsonObject = null;
@@ -58,5 +60,23 @@ public abstract class AbsLogicOperation extends Operation {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void setParent(Rule parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public Rule getParent() {
+        return parent;
+    }
+
+    @Override
+    public String toString() {
+        return "AbsLogicOperation{" +
+                "childOperand=" + childOperand.toString() +
+                ", parent=" + parent +
+                '}';
     }
 }

@@ -1,4 +1,4 @@
-package RuleEngine;
+package RuleEngine.interfaces;
 
 /**
  * Created by ShengYang on 2017/2/23.

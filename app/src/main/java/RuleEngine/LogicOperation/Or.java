@@ -1,6 +1,6 @@
 package RuleEngine.LogicOperation;
 
-import static pub.RuleConstants.OPERATION_OR;
+import static RuleEngine.pub.RuleConstants.OPERATION_OR;
 
 import java.util.Map;
 

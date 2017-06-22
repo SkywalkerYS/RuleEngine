@@ -2,11 +2,13 @@ package RuleEngine.BaseOperation;
 
 import java.util.Map;
 
+import RuleEngine.interfaces.IExpression;
+
 /**
  * Created by ShengYang on 2017/2/22.
  * 定义支持的基本数据类型：Boolean、String、Float、Integer
  */
-public class BaseType<T> implements Expression {
+public class BaseType<T> implements IExpression {
 
     private T value;
     private Class<T> type;
@@ -60,5 +62,13 @@ public class BaseType<T> implements Expression {
     @Override
     public boolean match(Map<String, ?> inputData) {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "BaseType{" +
+                "value=" + value +
+                ", type=" + type +
+                '}';
     }
 }

@@ -1,4 +1,4 @@
-package pub;
+package RuleEngine.pub;
 
 import RuleEngine.BaseOperation.Operation;
 import RuleEngine.LogicOperation.And;

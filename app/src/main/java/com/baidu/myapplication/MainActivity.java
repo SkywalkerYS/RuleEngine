@@ -1,10 +1,10 @@
 package com.baidu.myapplication;
 
-import static pub.RuleConstants.RULE_FILE;
-import static pub.RuleConstants.SYMBOL_NAME;
-import static pub.RuleConstants.SYMBOL_RESULT;
-import static pub.RuleConstants.SYMBOL_RULE;
-import static pub.RuleConstants.SYMBOL_RULESET;
+import static RuleEngine.pub.RuleConstants.RULE_FILE;
+import static RuleEngine.pub.RuleConstants.SYMBOL_NAME;
+import static RuleEngine.pub.RuleConstants.SYMBOL_RESULT;
+import static RuleEngine.pub.RuleConstants.SYMBOL_RULE;
+import static RuleEngine.pub.RuleConstants.SYMBOL_RULESET;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,18 +15,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import RuleEngine.BaseOperation.Expression;
+import RuleEngine.BaseOperation.Operation;
 import RuleEngine.CompareOperation.Equals;
 import RuleEngine.CompareOperation.Greater;
 import RuleEngine.CompareOperation.In;
 import RuleEngine.CompareOperation.Less;
 import RuleEngine.ExpressionParser;
-import RuleEngine.IMatchAction;
 import RuleEngine.LogicOperation.And;
 import RuleEngine.LogicOperation.Or;
 import RuleEngine.OperationManager;
-import RuleEngine.Rule;
-import RuleEngine.RuleSet;
+import RuleEngine.interfaces.IMatchAction;
+import RuleTree.Rule;
+import RuleTree.RuleSet;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
@@ -173,13 +173,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 rule = rules.getJSONObject(i);
                 ruleName = rule.optString(SYMBOL_NAME);
                 ruleObject = rule.optJSONObject(SYMBOL_RULE);
-                Expression expression = ExpressionParser.parse(ruleObject);
-                Rule mRule = new Rule.Builder().withName(ruleName).withExpression(expression).withAction(iMatchAction)
+                Operation operation = ExpressionParser.parse(ruleObject);
+                Rule mRule = new Rule.Builder().withName(ruleName).withExpression(operation).withAction(iMatchAction)
                         .withResult(ruleObject.optJSONObject(SYMBOL_RESULT)).build();
                 if (ruleName.equals("front")) {
                     ruleFront = mRule;
                 }
-                ruleSet.addRule(mRule);
+                ruleSet.addChild(mRule);
             }
 
         } catch (JSONException e) {

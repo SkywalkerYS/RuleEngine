@@ -1,6 +1,6 @@
 package RuleEngine.CompareOperation;
 
-import static pub.RuleConstants.OPERATION_LESS;
+import static RuleEngine.pub.RuleConstants.OPERATION_LESS;
 
 import java.util.Map;
 
