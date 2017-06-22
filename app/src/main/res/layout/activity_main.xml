@@ -5,15 +5,95 @@
         android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
         tools:context="com.baidu.myapplication.MainActivity">
 
-    <TextView
-            android:id="@+id/show"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello World!"/>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical"
+                  android:paddingLeft="@dimen/activity_horizontal_margin"
+                  android:paddingRight="@dimen/activity_horizontal_margin"
+                  android:paddingTop="@dimen/activity_vertical_margin"
+                  android:paddingBottom="@dimen/activity_vertical_margin"
+    >
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+        android:text="白名单："/>
+
+        <TextView
+                android:id="@+id/raw_white_list"
+                android:layout_width="wrap_content"
+                android:layout_height="250dp"
+                android:paddingTop="10dp"
+                />
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:paddingTop="10dp"
+                  android:text="过滤条件："/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+            <TextView
+                    android:id="@+id/key1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="editor"/>
+            <EditText
+                    android:id="@+id/value1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:inputType="number"
+                    android:text="2"
+            />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+            <TextView
+                    android:id="@+id/key2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="version"/>
+            <EditText
+                    android:id="@+id/value2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:inputType="number"
+                    android:text="3"
+            />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+            <TextView
+                    android:id="@+id/key3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="location"/>
+            <EditText
+                    android:id="@+id/value3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="'SH'"
+            />
+        </LinearLayout>
+
+        <Button android:id="@+id/parse_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+        android:text="解析"/>
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:paddingTop="10dp"
+                  android:text="结果："/>
+        <TextView
+                android:id="@+id/result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+        />
+
+    </LinearLayout>
+
 </RelativeLayout>

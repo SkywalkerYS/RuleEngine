@@ -15,30 +15,52 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import RuleEngine.LogicOperation.And;
-import RuleEngine.CompareOperation.Equals;
 import RuleEngine.BaseOperation.Expression;
-import RuleEngine.ExpressionParser;
+import RuleEngine.CompareOperation.Equals;
 import RuleEngine.CompareOperation.Greater;
-import RuleEngine.IMatchAction;
 import RuleEngine.CompareOperation.In;
 import RuleEngine.CompareOperation.Less;
-import RuleEngine.OperationManager;
+import RuleEngine.ExpressionParser;
+import RuleEngine.IMatchAction;
+import RuleEngine.LogicOperation.And;
 import RuleEngine.LogicOperation.Or;
+import RuleEngine.OperationManager;
 import RuleEngine.Rule;
 import RuleEngine.RuleSet;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final String TAG = "shengyang";
+
+    // 白名单源文件内容
+    private TextView rawRuleFileTv;
+    // 解析按钮
+    private Button parseBtn;
+    // 解析结果
+    private TextView resultTv;
+
+    private TextView key1;
+    private EditText value1;
+    private TextView key2;
+    private EditText value2;
+    private TextView key3;
+    private EditText value3;
 
     private byte[] ruleData;
 
     private RuleSet ruleSet;
-
+    // 测试入口前置的白名单
+    private Rule ruleFront;
+    //
+    private Map<String, Object> filterCondition = new HashMap<>();
 
     // 测试数据
     private final static String TEXTJSON = "{\"RuleSet\":[{\"name\":\"front\","
@@ -47,6 +69,55 @@ public class MainActivity extends AppCompatActivity {
             + "\"value\":\"'SH'\"}},\"result\":{\"color\":\"green\",\"ver\":\"3\"}}},{\"name\":\"voice\","
             + "\"Rule\":{\"And\":{\"In\":{\"key\":\"editor\",\"set\":[4,5,6]},\"Greater\":{\"key\":\"version\","
             + "\"value\":\"3\"}},\"result\":{\"package\":\"com.baidu.input\",\"style\":\"3\"}}}]}";
+
+    private final static String RAWJSON = "{\n"
+            + "  \"RuleSet\": [\n"
+            + "    {\n"
+            + "      \"name\": \"front\",\n"
+            + "      \"Rule\": {\n"
+            + "        \"Or\": {\n"
+            + "          \"And\": {\n"
+            + "            \"In\": {\n"
+            + "              \"key\": \"editor\",\n"
+            + "              \"set\": [1, 2, 3]\n"
+            + "            },\n"
+            + "            \"Greater\": {\n"
+            + "              \"key\": \"version\",\n"
+            + "              \"value\": \"2\"\n"
+            + "            }\n"
+            + "          },\n"
+            + "          \"Equals\": {\n"
+            + "            \"key\": \"location\",\n"
+            + "            \"value\": \"'SH'\"\n"
+            + "          }\n"
+            + "        },\n"
+            + "        \"result\": {\n"
+            + "          \"color\": \"green\",\n"
+            + "          \"ver\": \"3\"\n"
+            + "        }\n"
+            + "      }\n"
+            + "    },\n"
+            + "    {\n"
+            + "      \"name\": \"voice\",\n"
+            + "      \"Rule\": {\n"
+            + "        \"And\": {\n"
+            + "          \"In\": {\n"
+            + "            \"key\": \"editor\",\n"
+            + "            \"set\": [4, 5, 6]\n"
+            + "          },\n"
+            + "          \"Greater\": {\n"
+            + "            \"key\": \"version\",\n"
+            + "            \"value\": \"3\"\n"
+            + "          }\n"
+            + "        },\n"
+            + "        \"result\": {\n"
+            + "          \"package\": \"com.baidu.input\",\n"
+            + "          \"style\": \"3\"\n"
+            + "        }\n"
+            + "      }\n"
+            + "    }\n"
+            + "  ]\n"
+            + "}";
 
     // 白名单是否命中的回调
     IMatchAction iMatchAction = new IMatchAction() {
@@ -64,7 +135,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+        // 构建view
+        initView();
 
         // 初始化支持的规则参数
         initRule();
@@ -72,8 +146,6 @@ public class MainActivity extends AppCompatActivity {
         // 解析白名单
         parseRule();
 
-        // 验证
-        eval();
     }
 
     private void initRule() {
@@ -104,8 +176,10 @@ public class MainActivity extends AppCompatActivity {
                 Expression expression = ExpressionParser.parse(ruleObject);
                 Rule mRule = new Rule.Builder().withName(ruleName).withExpression(expression).withAction(iMatchAction)
                         .withResult(ruleObject.optJSONObject(SYMBOL_RESULT)).build();
+                if (ruleName.equals("front")) {
+                    ruleFront = mRule;
+                }
                 ruleSet.addRule(mRule);
-
             }
 
         } catch (JSONException e) {
@@ -113,13 +187,34 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void eval() {
-        Map<String, Object> bindings = new HashMap<>();
-        bindings.put("editor", 4);
-        bindings.put("version", 1);
-        bindings.put("location", "'SH'");
 
-        ruleSet.eval(bindings);
+    private void initView() {
+        rawRuleFileTv = (TextView) findViewById(R.id.raw_white_list);
+        parseBtn = (Button) findViewById(R.id.parse_btn);
+        resultTv = (TextView) findViewById(R.id.result);
+        key1 = (TextView) findViewById(R.id.key1);
+        value1 = (EditText) findViewById(R.id.value1);
+        key2 = (TextView) findViewById(R.id.key2);
+        value2 = (EditText) findViewById(R.id.value2);
+        key3 = (TextView) findViewById(R.id.key3);
+        value3 = (EditText) findViewById(R.id.value3);
+
+        rawRuleFileTv.setText(RAWJSON);
+        rawRuleFileTv.setMovementMethod(ScrollingMovementMethod.getInstance());
+        parseBtn.setOnClickListener(this);
+    }
+
+    private void eval() {
+
+        filterCondition.put(key1.getText().toString(), Integer.parseInt(value1.getText().toString()));
+        filterCondition.put(key2.getText().toString(), Integer.parseInt(value2.getText().toString()));
+        filterCondition.put(key3.getText().toString(), value3.getText().toString());
+
+        if (ruleFront.eval(filterCondition)) {
+            resultTv.setText("白名单命中(*^ω^*)");
+        } else {
+            resultTv.setText("白名单不明中(T＿T)!!!");
+        }
     }
 
     private byte[] loadData() {
@@ -141,4 +236,15 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.parse_btn:
+                // 验证
+                eval();
+                break;
+            default:
+                break;
+        }
+    }
 }
