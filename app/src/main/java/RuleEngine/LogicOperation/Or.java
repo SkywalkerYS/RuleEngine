@@ -1,5 +1,7 @@
 package RuleEngine.LogicOperation;
 
+import static pub.RuleConstants.OPERATION_OR;
+
 import java.util.Map;
 
 import RuleEngine.BaseOperation.Operation;
@@ -8,7 +10,7 @@ import RuleEngine.BaseOperation.Operation;
  * Created by ShengYang on 2017/2/23.
  */
 public class Or extends AbsLogicOperation {
-    public static final String SYMBOL = "Or";
+    public static final String SYMBOL = OPERATION_OR;
 
     public Or() {
         super(SYMBOL);

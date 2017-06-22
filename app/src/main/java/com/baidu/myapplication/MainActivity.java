@@ -1,5 +1,11 @@
 package com.baidu.myapplication;
 
+import static pub.RuleConstants.RULE_FILE;
+import static pub.RuleConstants.SYMBOL_NAME;
+import static pub.RuleConstants.SYMBOL_RESULT;
+import static pub.RuleConstants.SYMBOL_RULE;
+import static pub.RuleConstants.SYMBOL_RULESET;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -29,16 +35,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "shengyang";
 
-    public static final String RULEFILE = "rules.json";
-
     private byte[] ruleData;
 
     private RuleSet ruleSet;
-
-    public static final String SYMBOL_RULESET = "RuleSet";
-    public static final String SYMBOL_RULE = "Rule";
-    public static final String SYMBOL_NAME = "name";
-    public static final String SYMBOL_RESULT = "result";
 
 
     // 测试数据
@@ -125,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
     private byte[] loadData() {
         try {
-            InputStream is = getResources().getAssets().open(RULEFILE);
+            InputStream is = getResources().getAssets().open(RULE_FILE);
 
             int lenght = is.available();
 

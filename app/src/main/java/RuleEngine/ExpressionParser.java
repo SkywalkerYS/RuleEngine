@@ -1,19 +1,20 @@
 package RuleEngine;
 
+import static pub.RuleConstants.SYMBOL_RESULT;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import RuleEngine.BaseOperation.Expression;
 import RuleEngine.BaseOperation.Operation;
 import RuleEngine.LogicOperation.AbsLogicOperation;
+import pub.RuleUtils;
 
 /**
  * Created by ShengYang on 2017/2/23.
  */
 public class ExpressionParser {
     private static final OperationManager operations = OperationManager.INSTANCE;
-
-    public static final String SYMBOL_RESULT = "result";
 
     public static Expression parse(JSONObject root) {
         if (root == null) {
@@ -37,8 +38,8 @@ public class ExpressionParser {
             expression = operations.getOperation(operationName);
 
             if (operations.getOperation(operationName) != null
-                    && operations.isLogicalOperation(operations.getOperation(operationName))) {
-                ((AbsLogicOperation)expression).parseData(jsonObject);
+                    && RuleUtils.isLogicalOperation(operations.getOperation(operationName))) {
+                ((AbsLogicOperation) expression).parseData(jsonObject);
                 parse(jsonObject);
             } else {
                 Operation operation = operations.getOperation(operationName);

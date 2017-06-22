@@ -1,5 +1,8 @@
 package RuleEngine.CompareOperation;
 
+import static pub.RuleConstants.SYMBOL_KEY;
+import static pub.RuleConstants.SYMBOL_VALUE;
+
 import java.util.List;
 
 import org.json.JSONObject;
@@ -12,10 +15,6 @@ import RuleEngine.BaseOperation.Operation;
  */
 
 public abstract class AbsCompareOperation extends Operation {
-
-    public static final String SYMBOL_KEY = "key";
-    public static final String SYMBOL_VALUE = "value";
-    public static final String SYMBOL_SET = "set";
 
     protected String name;
     protected BaseType value;
