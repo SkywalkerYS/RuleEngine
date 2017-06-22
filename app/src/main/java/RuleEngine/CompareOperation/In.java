@@ -1,5 +1,9 @@
 package RuleEngine.CompareOperation;
 
+import static RuleEngine.pub.RuleConstants.OPERATION_IN;
+import static RuleEngine.pub.RuleConstants.SYMBOL_KEY;
+import static RuleEngine.pub.RuleConstants.SYMBOL_SET;
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -14,7 +18,7 @@ import RuleEngine.BaseOperation.Operation;
  */
 public class In extends AbsCompareOperation {
 
-    public static final String SYMBOL = "In";
+    public static final String SYMBOL = OPERATION_IN;
 
     public In() {
         super(SYMBOL);

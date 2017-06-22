@@ -31,25 +31,25 @@ public class BaseTypeTest {
     @Test
     public void testGetBooleanBaseType() throws Exception {
         BaseType booleanType = BaseType.getBaseType(booleanStr);
-        Assert.assertEquals(booleanType.getType().getName(), Boolean.class.getName());
+        Assert.assertEquals(booleanType.getType(), Boolean.class);
     }
 
     @Test
     public void testGetStringBaseType() throws Exception {
         BaseType stringType = BaseType.getBaseType(stringStr);
-        Assert.assertEquals(stringType.getType().getName(), String.class.getName());
+        Assert.assertEquals(stringType.getType(), String.class);
     }
 
     @Test
     public void testGetFloatBaseType() throws Exception {
         BaseType floatType = BaseType.getBaseType(floatStr);
-        Assert.assertEquals(floatType.getType().getName(), Float.class.getName());
+        Assert.assertEquals(floatType.getType(), Float.class);
     }
 
     @Test
     public void testGetIntegerBaseType() throws Exception {
         BaseType intType = BaseType.getBaseType(integerStr);
-        Assert.assertEquals(intType.getType().getName(), Integer.class.getName());
+        Assert.assertEquals(intType.getType(), Integer.class);
     }
 
 }

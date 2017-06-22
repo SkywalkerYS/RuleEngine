@@ -1,11 +1,15 @@
 package RuleEngine.CompareOperation;
 
+import static RuleEngine.pub.RuleConstants.SYMBOL_KEY;
+import static RuleEngine.pub.RuleConstants.SYMBOL_VALUE;
+
 import java.util.List;
 
 import org.json.JSONObject;
 
 import RuleEngine.BaseOperation.BaseType;
 import RuleEngine.BaseOperation.Operation;
+import RuleTree.Rule;
 
 /**
  * Created by ShengYang on 2017/3/5.
@@ -13,13 +17,11 @@ import RuleEngine.BaseOperation.Operation;
 
 public abstract class AbsCompareOperation extends Operation {
 
-    public static final String SYMBOL_KEY = "key";
-    public static final String SYMBOL_VALUE = "value";
-    public static final String SYMBOL_SET = "set";
-
     protected String name;
     protected BaseType value;
     protected List<BaseType> dataList;
+
+    private Rule parent;
 
     public AbsCompareOperation(String symbol) {
         super(symbol);
@@ -40,4 +42,18 @@ public abstract class AbsCompareOperation extends Operation {
         value = BaseType.getBaseType(valueStr);
     }
 
+    @Override
+    public void setParent(Rule parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public Rule getParent() {
+        return parent;
+    }
+
+    @Override
+    public String toString() {
+        return "key: " + name + " value: " + value + "\n" + "dataList: " + dataList;
+    }
 }

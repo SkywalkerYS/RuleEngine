@@ -1,5 +1,7 @@
 package RuleEngine.CompareOperation;
 
+import static RuleEngine.pub.RuleConstants.OPERATION_LESS;
+
 import java.util.Map;
 
 import RuleEngine.BaseOperation.BaseType;
@@ -10,7 +12,7 @@ import RuleEngine.BaseOperation.Operation;
  */
 public class Less extends AbsCompareOperation {
 
-    public static final String SYMBOL = "Less";
+    public static final String SYMBOL = OPERATION_LESS;
 
     public Less() {
         super(SYMBOL);

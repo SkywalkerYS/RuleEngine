@@ -1,5 +1,7 @@
 package RuleEngine.CompareOperation;
 
+import static RuleEngine.pub.RuleConstants.OPERATION_GREATER;
+
 import java.util.Map;
 
 import RuleEngine.BaseOperation.BaseType;
@@ -9,7 +11,7 @@ import RuleEngine.BaseOperation.Operation;
  * Created by ShengYang on 2017/2/23.
  */
 public class Greater extends AbsCompareOperation {
-    public static final String SYMBOL = "Greater";
+    public static final String SYMBOL = OPERATION_GREATER;
 
     public Greater() {
         super(SYMBOL);

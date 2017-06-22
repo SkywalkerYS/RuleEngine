@@ -1,5 +1,7 @@
 package RuleEngine.LogicOperation;
 
+import static RuleEngine.pub.RuleConstants.OPERATION_NOT;
+
 import java.util.Map;
 
 import RuleEngine.BaseOperation.Operation;
@@ -9,7 +11,7 @@ import RuleEngine.BaseOperation.Operation;
  */
 public class Not extends AbsLogicOperation {
 
-    public static final String SYMBOL = "Not";
+    public static final String SYMBOL = OPERATION_NOT;
 
     public Not() {
         super(SYMBOL);

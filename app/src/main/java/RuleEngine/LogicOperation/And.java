@@ -1,5 +1,7 @@
 package RuleEngine.LogicOperation;
 
+import static RuleEngine.pub.RuleConstants.OPERATION_AND;
+
 import java.util.Map;
 
 import RuleEngine.BaseOperation.Operation;
@@ -9,7 +11,7 @@ import RuleEngine.BaseOperation.Operation;
  */
 public class And extends AbsLogicOperation {
 
-    public static final String SYMBOL = "And";
+    public static final String SYMBOL = OPERATION_AND;
 
     public And() {
         super(SYMBOL);
