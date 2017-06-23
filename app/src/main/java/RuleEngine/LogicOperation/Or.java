@@ -2,6 +2,7 @@ package RuleEngine.LogicOperation;
 
 import static RuleEngine.pub.RuleConstants.OPERATION_OR;
 
+import java.util.List;
 import java.util.Map;
 
 import RuleEngine.BaseOperation.Operation;
@@ -32,5 +33,9 @@ public class Or extends AbsLogicOperation {
         }
 
         return result;
+    }
+
+    public List<Operation> getChildren() {
+        return childOperand;
     }
 }

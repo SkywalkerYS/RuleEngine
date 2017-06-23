@@ -43,4 +43,12 @@ public class Greater extends AbsCompareOperation {
 
         return false;
     }
+
+    public String getKey() {
+        return name;
+    }
+
+    public BaseType getValue() {
+        return value;
+    }
 }

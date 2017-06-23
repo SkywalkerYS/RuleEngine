@@ -2,6 +2,7 @@ package RuleEngine.LogicOperation;
 
 import static RuleEngine.pub.RuleConstants.OPERATION_AND;
 
+import java.util.List;
 import java.util.Map;
 
 import RuleEngine.BaseOperation.Operation;
@@ -35,6 +36,10 @@ public class And extends AbsLogicOperation {
 
         return result;
 
+    }
+
+    public List<Operation> getChildren() {
+        return childOperand;
     }
 
 }

@@ -5,6 +5,7 @@ import static RuleEngine.pub.RuleConstants.SYMBOL_KEY;
 import static RuleEngine.pub.RuleConstants.SYMBOL_SET;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -63,5 +64,13 @@ public class In extends AbsCompareOperation {
                 dataList.add(BaseType.getBaseType(dataStr));
             }
         }
+    }
+
+    public String getKey() {
+        return name;
+    }
+
+    public List<BaseType> getValue() {
+        return dataList;
     }
 }

@@ -48,4 +48,13 @@ public class Equals extends AbsCompareOperation {
 
         return false;
     }
+
+
+    public String getKey() {
+        return name;
+    }
+
+    public BaseType getValue() {
+        return value;
+    }
 }
