@@ -50,8 +50,8 @@ public class BaseType<T> implements IExpression {
 
         if ("true".equals(string) || "false".equals(string)) {
             return new BaseType<>(Boolean.getBoolean(string), Boolean.class);
-        } else if (string.startsWith("'")) {
-            return new BaseType<>(string, String.class);
+        } else if (string.startsWith("'") && string.endsWith("'")) {
+            return new BaseType<>(string.substring(1, string.length() - 1), String.class);
         } else if (string.contains(".")) {
             return new BaseType<>(Float.parseFloat(string), Float.class);
         } else {

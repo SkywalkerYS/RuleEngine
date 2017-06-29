@@ -256,9 +256,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void eval() {
 
-        filterCondition.put("package", "'wechat.com'");
-        filterCondition.put("version", 2);
-        filterCondition.put("style", 3);
+        filterCondition.put("package", "wechat.com");
+        filterCondition.put("ctrid", 3);
+        filterCondition.put("style", 2);
         filterCondition.put("interaction", 1);
 
         if (ruleTest.eval(filterCondition)) {
