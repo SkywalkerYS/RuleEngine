@@ -1,8 +1,6 @@
 package RuleEngine.CompareOperation;
 
 import static RuleEngine.pub.RuleConstants.OPERATION_IN;
-import static RuleEngine.pub.RuleConstants.SYMBOL_KEY;
-import static RuleEngine.pub.RuleConstants.SYMBOL_SET;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -70,28 +68,30 @@ public class In extends AbsCompareOperation {
     }
 
     @Override
-    public void parseData(final JSONArray compareData) {
+    public void parseData(final JSONObject root) {
 
-        if (compareData == null) {
+        if (root == null) {
             return;
         }
-
-        int mapSize = compareData.length();
         try {
+
+            JSONObject compareData = root.getJSONObject(symbol);
+            JSONArray compareNames = compareData.names();
+
+            int mapSize = compareNames.length();
+
             for (int i = 0; i < mapSize; i++) {
-                JSONObject data = compareData.getJSONObject(i);
-                String key = data.optString(SYMBOL_KEY);
-                JSONArray array = data.optJSONArray(SYMBOL_SET);
-
+                String key = compareNames.optString(i);
+                JSONArray valueSet = compareData.getJSONArray(key);
                 Set<BaseType> dataList = new HashSet<>();
-
-                String dataStr = null;
-                if (array != null) {
-                    for (int j = 0; j < array.length(); j++) {
-                        dataStr = array.optString(j);
+                if (valueSet != null) {
+                    String dataStr = null;
+                    for (int j = 0; j < valueSet.length(); j++) {
+                        dataStr = valueSet.optString(j);
                         dataList.add(BaseType.getBaseType(dataStr));
                     }
                 }
+
                 compareDataSetMap.put(key, dataList);
             }
         } catch (JSONException e) {

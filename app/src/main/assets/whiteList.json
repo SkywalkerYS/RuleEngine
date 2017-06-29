@@ -4,24 +4,12 @@
       "name": "tinyVoice",
       "Rule": [
         {
-          "Equals": [
-            {
-              "key": "package",
-              "value": "'wechat.com'"
-            },
-            {
-              "key": "ctrid",
-              "value": "3"
-            },
-            {
-              "key": "style",
-              "value": "2"
-            },
-            {
-              "key": "interaction",
-              "value": "1"
-            }
-          ],
+          "Equals": {
+            "package": "'wechat.com'",
+            "ctrid": "3",
+            "style": "2",
+            "interaction": "1"
+          },
           "result": {
             "s_text": "极简语音",
             "action": 3,
@@ -29,20 +17,11 @@
           }
         },
         {
-          "Equals": [
-            {
-              "key": "package",
-              "value": "'com.huawei.appmarket'"
-            },
-            {
-              "key": "screen",
-              "value": "1"
-            },
-            {
-              "key": "style",
-              "value": "2"
-            }
-          ],
+          "Equals": {
+            "package": "'com.huawei.appmarket'",
+            "screen": "1",
+            "style": "2"
+          },
           "result": {
             "r_text": "语音搜索",
             "s_text": "语音纠错"
@@ -51,30 +30,28 @@
         {
           "Or": [
             {
-              "Equals": [
-                {
-                  "key": "package",
-                  "value": "'wechat.com'"
-                },
-                {
-                  "key": "screen",
-                  "value": "1"
-                }
-              ]
+              "Equals": {
+                "package": "'wechat.com'",
+                "screen": "1"
+              }
             },
             {
-              "Greater": [
-                {
-                  "key": "version",
-                  "value": "1"
-                }
-              ]
+              "Less": {
+                "version": "1"
+              }
             }
           ],
           "result": {
             "action": 3,
             "link": "http://www.baidu.com"
           }
+        },
+        {
+          "In" : {
+            "version" : [4, 5, 6]
+          },
+
+          "result" : "in Test"
         }
       ]
     }

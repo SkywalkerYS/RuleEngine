@@ -1,0 +1,82 @@
+{
+  "RuleSet": [
+    {
+      "name": "tinyVoice",
+      "Rule": [
+        {
+          "Equals": [
+            {
+              "key": "package",
+              "value": "'wechat.com'"
+            },
+            {
+              "key": "ctrid",
+              "value": "3"
+            },
+            {
+              "key": "style",
+              "value": "2"
+            },
+            {
+              "key": "interaction",
+              "value": "1"
+            }
+          ],
+          "result": {
+            "s_text": "极简语音",
+            "action": 3,
+            "link": "http://www.baidu.com"
+          }
+        },
+        {
+          "Equals": [
+            {
+              "key": "package",
+              "value": "'com.huawei.appmarket'"
+            },
+            {
+              "key": "screen",
+              "value": "1"
+            },
+            {
+              "key": "style",
+              "value": "2"
+            }
+          ],
+          "result": {
+            "r_text": "语音搜索",
+            "s_text": "语音纠错"
+          }
+        },
+        {
+          "Or": [
+            {
+              "Equals": [
+                {
+                  "key": "package",
+                  "value": "'wechat.com'"
+                },
+                {
+                  "key": "screen",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "Greater": [
+                {
+                  "key": "version",
+                  "value": "1"
+                }
+              ]
+            }
+          ],
+          "result": {
+            "action": 3,
+            "link": "http://www.baidu.com"
+          }
+        }
+      ]
+    }
+  ]
+}

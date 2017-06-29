@@ -6,14 +6,14 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
-import RuleEngine.interfaces.IComposition;
+import RuleEngine.interfaces.IChild;
 import RuleEngine.interfaces.IMatchAction;
 import RuleEngine.interfaces.IParent;
 
 /**
  * Created by ShengYang on 2017/2/23.
  */
-public class Rule implements IComposition<RuleFilter>, IParent<RuleSet> {
+public class Rule implements IChild<RuleFilter>, IParent<RuleSet> {
 
     // 规则的名称
     private String name;

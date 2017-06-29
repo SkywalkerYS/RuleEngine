@@ -1,8 +1,5 @@
 package RuleEngine.CompareOperation;
 
-import static RuleEngine.pub.RuleConstants.SYMBOL_KEY;
-import static RuleEngine.pub.RuleConstants.SYMBOL_VALUE;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -37,17 +34,17 @@ public abstract class AbsCompareOperation extends Operation {
     }
 
     @Override
-    public void parseData(final JSONArray compareData) {
-        if (compareData == null) {
+    public void parseData(final JSONObject root) {
+        if (root == null) {
             return;
         }
-
-        int mapSize = compareData.length();
         try {
+            JSONObject compareData = root.getJSONObject(symbol);
+            JSONArray compareNames = compareData.names();
+            int mapSize = compareNames.length();
             for (int i = 0; i < mapSize; i++) {
-                JSONObject data = compareData.getJSONObject(i);
-                String key = data.optString(SYMBOL_KEY);
-                String valueStr = data.optString(SYMBOL_VALUE);
+                String key = compareNames.optString(i);
+                String valueStr = compareData.optString(key);
                 BaseType value = BaseType.getBaseType(valueStr);
                 compareDataMap.put(key, value);
             }

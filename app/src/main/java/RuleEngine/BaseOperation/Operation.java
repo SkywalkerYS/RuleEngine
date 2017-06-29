@@ -1,6 +1,6 @@
 package RuleEngine.BaseOperation;
 
-import org.json.JSONArray;
+import org.json.JSONObject;
 
 import RuleEngine.LogicOperation.AbsLogicOperation;
 import RuleEngine.interfaces.IExpression;
@@ -22,7 +22,7 @@ public abstract class Operation implements IExpression, IParent<AbsLogicOperatio
 
     public abstract Operation copy();
 
-    public abstract void parseData(final JSONArray jsonObject);
+    public abstract void parseData(JSONObject root);
 
     @Override
     public String toString() {

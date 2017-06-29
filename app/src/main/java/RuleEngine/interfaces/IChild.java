@@ -7,7 +7,7 @@ import java.util.List;
  * 构建树的接口
  */
 
-public interface IComposition<T> {
+public interface IChild<T> {
     /**
      * 添加子元素
      *

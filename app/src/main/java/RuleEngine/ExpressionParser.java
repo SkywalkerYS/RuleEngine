@@ -3,11 +3,9 @@ package RuleEngine;
 import static RuleEngine.pub.RuleConstants.SYMBOL_RESULT;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import RuleEngine.BaseOperation.Operation;
-import RuleEngine.pub.RuleUtils;
 import RuleTree.RuleFilter;
 
 /**
@@ -32,7 +30,6 @@ public class ExpressionParser {
         JSONArray childNames = root.names();
         String operationName = null;
         JSONObject jsonObject = null;
-        //        Operation rootOperation = null;
         RuleFilter ruleFilter = new RuleFilter();
         for (int i = 0; i < childNames.length(); i++) {
 
@@ -51,20 +48,8 @@ public class ExpressionParser {
             }
 
             Operation operation = operations.getOperation(rootOperationName).copy();
-
-            try {
-                JSONArray childOp = (JSONArray) root.get(rootOperationName);
-
-                if (childOp == null || operation == null) {
-                    return null;
-                }
-
-                operation.parseData(childOp);
-                ruleFilter.setFilterData(childOp);
-                ruleFilter.setRootOperation(operation);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            operation.parseData(root);
+            ruleFilter.setRootOperation(operation);
 
         }
 
@@ -72,17 +57,17 @@ public class ExpressionParser {
     }
 
 
-    private static void parseOperation(Operation operation, JSONArray root) {
-        if (root == null) {
-            return;
-        }
-
-        if (RuleUtils.isLogicalOperation(operation)) {
-            operation.parseData(root);
-            parseOperation(operation,root);
-        } else {
-            operation.parseData(root);
-        }
-
-    }
+//    private static void parseOperation(Operation operation, JSONArray root) {
+//        if (root == null) {
+//            return;
+//        }
+//
+//        if (RuleUtils.isLogicalOperation(operation)) {
+//            operation.parseData(root);
+//            parseOperation(operation,root);
+//        } else {
+//            operation.parseData(root);
+//        }
+//
+//    }
 }

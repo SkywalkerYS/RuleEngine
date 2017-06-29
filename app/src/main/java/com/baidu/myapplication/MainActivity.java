@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView key3;
     private EditText value3;
 
-    private byte[] ruleData;
 
     private RuleSet ruleSet;
     // 测试的白名单
@@ -78,24 +77,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             + "      \"name\": \"tinyVoice\",\n"
             + "      \"Rule\": [\n"
             + "        {\n"
-            + "          \"Equals\": [\n"
-            + "            {\n"
-            + "              \"key\": \"package\",\n"
-            + "              \"value\": \"'wechat.com'\"\n"
-            + "            },\n"
-            + "            {\n"
-            + "              \"key\": \"ctrid\",\n"
-            + "              \"value\": \"3\"\n"
-            + "            },\n"
-            + "            {\n"
-            + "              \"key\": \"style\",\n"
-            + "              \"value\": \"2\"\n"
-            + "            },\n"
-            + "            {\n"
-            + "              \"key\": \"interaction\",\n"
-            + "              \"value\": \"1\"\n"
-            + "            }\n"
-            + "          ],\n"
+            + "          \"Equals\": {\n"
+            + "            \"package\": \"'wechat.com'\",\n"
+            + "            \"ctrid\": \"3\",\n"
+            + "            \"style\": \"2\",\n"
+            + "            \"interaction\": \"1\"\n"
+            + "          },\n"
             + "          \"result\": {\n"
             + "            \"s_text\": \"极简语音\",\n"
             + "            \"action\": 3,\n"
@@ -103,20 +90,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             + "          }\n"
             + "        },\n"
             + "        {\n"
-            + "          \"Equals\": [\n"
-            + "            {\n"
-            + "              \"key\": \"package\",\n"
-            + "              \"value\": \"'com.huawei.appmarket'\"\n"
-            + "            },\n"
-            + "            {\n"
-            + "              \"key\": \"screen\",\n"
-            + "              \"value\": \"1\"\n"
-            + "            },\n"
-            + "            {\n"
-            + "              \"key\": \"style\",\n"
-            + "              \"value\": \"2\"\n"
-            + "            }\n"
-            + "          ],\n"
+            + "          \"Equals\": {\n"
+            + "            \"package\": \"'com.huawei.appmarket'\",\n"
+            + "            \"screen\": \"1\",\n"
+            + "            \"style\": \"2\"\n"
+            + "          },\n"
             + "          \"result\": {\n"
             + "            \"r_text\": \"语音搜索\",\n"
             + "            \"s_text\": \"语音纠错\"\n"
@@ -125,30 +103,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             + "        {\n"
             + "          \"Or\": [\n"
             + "            {\n"
-            + "              \"Equals\": [\n"
-            + "                {\n"
-            + "                  \"key\": \"package\",\n"
-            + "                  \"value\": \"'wechat.com'\"\n"
-            + "                },\n"
-            + "                {\n"
-            + "                  \"key\": \"screen\",\n"
-            + "                  \"value\": \"1\"\n"
-            + "                }\n"
-            + "              ]\n"
+            + "              \"Equals\": {\n"
+            + "                \"package\": \"'wechat.com'\",\n"
+            + "                \"screen\": \"1\"\n"
+            + "              }\n"
             + "            },\n"
             + "            {\n"
-            + "              \"Greater\": [\n"
-            + "                {\n"
-            + "                  \"key\": \"version\",\n"
-            + "                  \"value\": \"1\"\n"
-            + "                }\n"
-            + "              ]\n"
+            + "              \"Less\": {\n"
+            + "                \"version\": \"1\"\n"
+            + "              }\n"
             + "            }\n"
             + "          ],\n"
             + "          \"result\": {\n"
             + "            \"action\": 3,\n"
             + "            \"link\": \"http://www.baidu.com\"\n"
             + "          }\n"
+            + "        },\n"
+            + "        {\n"
+            + "          \"In\" : {\n"
+            + "            \"version\" : [4, 5, 6]\n"
+            + "          },\n"
+            + "\n"
+            + "          \"result\" : \"in Test\"\n"
             + "        }\n"
             + "      ]\n"
             + "    }\n"
@@ -256,10 +232,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void eval() {
 
-        filterCondition.put("package", "wechat.com");
-        filterCondition.put("ctrid", 3);
-        filterCondition.put("style", 2);
-        filterCondition.put("interaction", 1);
+//        filterCondition.put("package", "wechat.com");
+//        filterCondition.put("ctrid", 3);
+//        filterCondition.put("style", 2);
+//        filterCondition.put("interaction", 1);
+        filterCondition.put("version", 4);
 
         if (ruleTest.eval(filterCondition)) {
             resultTv.setText(ruleTest.getResult(filterCondition) != null ? ruleTest.getResult(filterCondition).toString() : "命中，没有result");

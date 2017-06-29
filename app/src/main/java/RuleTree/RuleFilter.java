@@ -2,7 +2,6 @@ package RuleTree;
 
 import java.util.Map;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import RuleEngine.BaseOperation.Operation;
@@ -16,8 +15,6 @@ import RuleEngine.interfaces.IParent;
 public class RuleFilter implements IExpression, IParent<Rule> {
 
     private JSONObject result;
-
-    private JSONArray filterData;
 
     private Operation rootOperation;
 
@@ -51,9 +48,5 @@ public class RuleFilter implements IExpression, IParent<Rule> {
 
     public void setRootOperation(Operation operation) {
         this.rootOperation = operation;
-    }
-
-    public void setFilterData(JSONArray filterData) {
-        this.filterData = filterData;
     }
 }

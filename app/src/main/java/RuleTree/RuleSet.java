@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import RuleEngine.interfaces.IComposition;
+import RuleEngine.interfaces.IChild;
 import android.util.Log;
 
 /**
  * Created by ShengYang on 2017/2/23.
  * 维护一个Rule的列表
  */
-public class RuleSet implements IComposition<Rule> {
+public class RuleSet implements IChild<Rule> {
 
     private static final String TAG = "shengyang";
 
