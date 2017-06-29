@@ -37,7 +37,7 @@ public class RuleSet implements IComposition<Rule> {
 
             Log.e(TAG, "rule name: " + rule.getName());
             if (ruleEval) {
-                Log.e(TAG, "rule result: " + rule.getResult());
+                Log.e(TAG, "rule result: " + rule.getResult(bindings));
             } else {
                 Log.e(TAG, "rule result: match fail!!");
             }
@@ -48,8 +48,10 @@ public class RuleSet implements IComposition<Rule> {
 
     @Override
     public void addChild(Rule rule) {
-        childrenRules.add(rule);
-        rule.setParent(this);
+        if (rule != null) {
+            childrenRules.add(rule);
+            rule.setParent(this);
+        }
     }
 
     @Override

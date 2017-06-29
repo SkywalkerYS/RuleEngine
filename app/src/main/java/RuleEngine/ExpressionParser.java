@@ -3,10 +3,12 @@ package RuleEngine;
 import static RuleEngine.pub.RuleConstants.SYMBOL_RESULT;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import RuleEngine.BaseOperation.Operation;
 import RuleEngine.pub.RuleUtils;
+import RuleTree.RuleFilter;
 
 /**
  * Created by ShengYang on 2017/2/23.
@@ -17,44 +19,70 @@ public class ExpressionParser {
 
     /**
      * 递归解析，白名单中的某个规则
+     *
      * @param root
+     *
      * @return 返回一个根节点的操作
      */
-    public static Operation parse(JSONObject root) {
+    public static RuleFilter parseFilter(JSONObject root) {
         if (root == null) {
             return null;
         }
-        JSONArray childOp = root.names();
+
+        JSONArray childNames = root.names();
         String operationName = null;
         JSONObject jsonObject = null;
-        Operation rootOperation = null;
-        for (int i = 0; i < childOp.length(); i++) {
-            operationName = childOp.optString(i);
+        //        Operation rootOperation = null;
+        RuleFilter ruleFilter = new RuleFilter();
+        for (int i = 0; i < childNames.length(); i++) {
+
+            operationName = childNames.optString(i);
+
             if (operationName.equals(SYMBOL_RESULT)) {
+                jsonObject = root.optJSONObject(operationName);
+                ruleFilter.setResult(jsonObject);
                 continue;
             }
 
-            jsonObject = root.optJSONObject(operationName);
-            if (jsonObject == null) {
+            String rootOperationName = operationName;
+
+            if (operations.getOperation(rootOperationName) == null) {
                 return null;
             }
 
-            rootOperation = operations.getOperation(operationName);
+            Operation operation = operations.getOperation(rootOperationName).copy();
 
-            if (rootOperation != null
-                    && RuleUtils.isLogicalOperation(rootOperation)) {
+            try {
+                JSONArray childOp = (JSONArray) root.get(rootOperationName);
 
-                rootOperation.parseData(jsonObject);
-                // 逻辑运算需要递归
-                parse(jsonObject);
-            } else {
-                Operation operation = operations.getOperation(operationName);
-                if (operation != null) {
-                    operation.parseData(jsonObject);
+                if (childOp == null || operation == null) {
+                    return null;
                 }
+
+                operation.parseData(childOp);
+                ruleFilter.setFilterData(childOp);
+                ruleFilter.setRootOperation(operation);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
         }
 
-        return rootOperation;
+        return ruleFilter;
+    }
+
+
+    private static void parseOperation(Operation operation, JSONArray root) {
+        if (root == null) {
+            return;
+        }
+
+        if (RuleUtils.isLogicalOperation(operation)) {
+            operation.parseData(root);
+            parseOperation(operation,root);
+        } else {
+            operation.parseData(root);
+        }
+
     }
 }

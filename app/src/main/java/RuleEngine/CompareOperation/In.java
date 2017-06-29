@@ -4,11 +4,14 @@ import static RuleEngine.pub.RuleConstants.OPERATION_IN;
 import static RuleEngine.pub.RuleConstants.SYMBOL_KEY;
 import static RuleEngine.pub.RuleConstants.SYMBOL_SET;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import RuleEngine.BaseOperation.BaseType;
@@ -20,6 +23,8 @@ import RuleEngine.BaseOperation.Operation;
 public class In extends AbsCompareOperation {
 
     public static final String SYMBOL = OPERATION_IN;
+
+    private Map<String, Set<BaseType>> compareDataSetMap = new HashMap<>();
 
     public In() {
         super(SYMBOL);
@@ -33,14 +38,31 @@ public class In extends AbsCompareOperation {
     @Override
     public boolean match(Map<String, ?> inputData) {
 
-        Object obj = inputData.get(name);
+        if (compareDataSetMap == null || compareDataSetMap.size() == 0) {
+            return false;
+        }
+
+        boolean isMatch = true;
+        Iterator iterator = compareDataSetMap.keySet().iterator();
+        while (iterator.hasNext()) {
+            String key = (String) iterator.next();
+            isMatch &=  compare(key, compareDataSetMap, inputData);
+        }
+
+        return isMatch;
+    }
+
+    @Override
+    protected boolean compare(String key, Map<String, ?> compareData, Map<String, ?> inputData) {
+        Object obj = inputData.get(key);
         if (obj == null) {
             return false;
         }
-        BaseType<?> type = null;
-        for (int i = 0; i < dataList.size(); i++) {
-            type = (BaseType<?>) dataList.get(i);
-            if ((type.getType().equals(obj.getClass())) && (type.getValue().equals(obj))) {
+
+        Set<BaseType> valueSet = (HashSet<BaseType>) compareData.get(key);
+
+        for (BaseType baseType : valueSet) {
+            if ((baseType.getType().equals(obj.getClass())) && (baseType.getValue().equals(obj))) {
                 return true;
             }
         }
@@ -48,29 +70,33 @@ public class In extends AbsCompareOperation {
     }
 
     @Override
-    public void parseData(JSONObject jsonObject) {
-        if (jsonObject == null) {
+    public void parseData(final JSONArray compareData) {
+
+        if (compareData == null) {
             return;
         }
-        dataList = new ArrayList<>();
 
-        name = jsonObject.optString(SYMBOL_KEY);
-        JSONArray array = jsonObject.optJSONArray(SYMBOL_SET);
+        int mapSize = compareData.length();
+        try {
+            for (int i = 0; i < mapSize; i++) {
+                JSONObject data = compareData.getJSONObject(i);
+                String key = data.optString(SYMBOL_KEY);
+                JSONArray array = data.optJSONArray(SYMBOL_SET);
 
-        String dataStr = null;
-        if (array != null) {
-            for (int i = 0; i < array.length(); i++) {
-                dataStr = array.optString(i);
-                dataList.add(BaseType.getBaseType(dataStr));
+                Set<BaseType> dataList = new HashSet<>();
+
+                String dataStr = null;
+                if (array != null) {
+                    for (int j = 0; j < array.length(); j++) {
+                        dataStr = array.optString(j);
+                        dataList.add(BaseType.getBaseType(dataStr));
+                    }
+                }
+                compareDataSetMap.put(key, dataList);
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
-    public String getKey() {
-        return name;
-    }
-
-    public List<BaseType> getValue() {
-        return dataList;
-    }
 }

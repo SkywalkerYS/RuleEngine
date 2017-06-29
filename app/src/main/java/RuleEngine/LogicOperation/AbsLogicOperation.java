@@ -1,6 +1,7 @@
 package RuleEngine.LogicOperation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -8,18 +9,18 @@ import org.json.JSONObject;
 
 import RuleEngine.BaseOperation.Operation;
 import RuleEngine.OperationManager;
-import RuleTree.Rule;
+import RuleEngine.interfaces.IComposition;
 
 /**
  * Created by ShengYang on 2017/3/5.
  */
 
-public abstract class AbsLogicOperation extends Operation {
+public abstract class AbsLogicOperation extends Operation implements IComposition<Operation>{
     // json格式，某个操作数的下的数组中每个都进行该操作
 
     protected ArrayList<Operation> childOperand = null;
 
-    private Rule parent;
+    private AbsLogicOperation parent;
 
     public AbsLogicOperation(String symbol) {
         super(symbol);
@@ -31,28 +32,28 @@ public abstract class AbsLogicOperation extends Operation {
     }
 
     @Override
-    public void parseData(final JSONObject root) {
-        if (root == null) {
+    public void parseData(final JSONArray logicOpRoot) {
+        if (logicOpRoot == null) {
             return;
         }
         OperationManager operations = OperationManager.INSTANCE;
         childOperand = new ArrayList<>();
         try {
-            JSONArray childOp = root.names();
-            JSONObject jsonObject = null;
+            JSONArray operationJsonArray = null;
             String operationSymbol = null;
-            if (childOp != null) {
-                for (int i = 0; i < childOp.length(); i++) {
-                    operationSymbol = childOp.optString(i);
-                    jsonObject = root.optJSONObject(operationSymbol);
-                    if (root.get(operationSymbol) != null) {
-                        Operation op = operations.getOperation(operationSymbol);
-                        if (op != null) {
-                            op = op.copy();
-                            childOperand.add(op);
-                            op.parseData(jsonObject);
-                        }
-                    }
+            for (int i = 0; i < logicOpRoot.length(); i++) {
+                JSONObject operationJsonObject = logicOpRoot.getJSONObject(i);
+                JSONArray names = operationJsonObject.names();
+                // 该JSONObject只有一个操作符属性
+                operationSymbol = names.optString(0);
+                operationJsonArray = operationJsonObject.optJSONArray(operationSymbol);
+
+                Operation operation = operations.getOperation(operationSymbol);
+                if (operation != null) {
+                    operation = operation.copy();
+                    addChild(operation);
+                    operation.setParent(this);
+                    operation.parseData(operationJsonArray);
                 }
             }
 
@@ -63,13 +64,23 @@ public abstract class AbsLogicOperation extends Operation {
     }
 
     @Override
-    public void setParent(Rule parent) {
+    public void setParent(AbsLogicOperation parent) {
         this.parent = parent;
     }
 
     @Override
-    public Rule getParent() {
+    public AbsLogicOperation getParent() {
         return parent;
+    }
+
+    @Override
+    public void addChild(Operation child) {
+        childOperand.add(child);
+    }
+
+    @Override
+    public List<Operation> getChildren() {
+        return childOperand;
     }
 
     @Override

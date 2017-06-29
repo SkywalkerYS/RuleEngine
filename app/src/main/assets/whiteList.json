@@ -2,46 +2,79 @@
   "RuleSet": [
     {
       "name": "tinyVoice",
-      "Rule": {
-          "wechat.com": [
-            {
-              "ctrid": 3,
-              "style": 2,
-              "s_text": "极简语音",
-              "interaction": 1,
-              "action": 3,
-              "link": "http://www.baidu.com"
-            }
-          ]
-        }
-      ],
-      "2": [
+      "Rule": [
         {
-          "com.huawei.appmarket": [
+          "Equals": [
             {
-              "r_text": "场景化语音",
-              "screen": 1,
-              "style": 1,
-              "s_text": ""
+              "key": "package",
+              "value": "'wechat.com'"
             },
             {
-              "r_text": "语音搜索",
-              "screen": 1,
-              "style": 2,
-              "s_text": "语音纠错"
-            }
-          ]
-        }
-      ],
-      "3": [
-        {
-          "com.huawei.appmarket": [
+              "key": "ctrid",
+              "value": "3"
+            },
             {
-              "ctrid": 3,
-              "action": 3,
-              "link": "http://www.baidu.com"
+              "key": "style",
+              "value": "2"
+            },
+            {
+              "key": "interaction",
+              "value": "1"
             }
-          ]
+          ],
+          "result": {
+            "s_text": "极简语音",
+            "action": 3,
+            "link": "http://www.baidu.com"
+          }
+        },
+        {
+          "Equals": [
+            {
+              "key": "package",
+              "value": "'com.huawei.appmarket'"
+            },
+            {
+              "key": "screen",
+              "value": "1"
+            },
+            {
+              "key": "style",
+              "value": "2"
+            }
+          ],
+          "result": {
+            "r_text": "语音搜索",
+            "s_text": "语音纠错"
+          }
+        },
+        {
+          "Or": [
+            {
+              "Equals": [
+                {
+                  "key": "package",
+                  "value": "'wechat.com'"
+                },
+                {
+                  "key": "screen",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "Greater": [
+                {
+                  "key": "version",
+                  "value": "1"
+                }
+              ]
+            }
+          ],
+          "result": {
+            "action": 3,
+            "link": "http://www.baidu.com"
+          }
         }
       ]
     }

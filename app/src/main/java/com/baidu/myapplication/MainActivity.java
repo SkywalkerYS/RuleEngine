@@ -2,20 +2,21 @@ package com.baidu.myapplication;
 
 import static RuleEngine.pub.RuleConstants.RULE_FILE;
 import static RuleEngine.pub.RuleConstants.SYMBOL_NAME;
-import static RuleEngine.pub.RuleConstants.SYMBOL_RESULT;
 import static RuleEngine.pub.RuleConstants.SYMBOL_RULE;
 import static RuleEngine.pub.RuleConstants.SYMBOL_RULESET;
+import static com.baidu.myapplication.R.id.result;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import RuleEngine.BaseOperation.Operation;
 import RuleEngine.CompareOperation.Equals;
 import RuleEngine.CompareOperation.Greater;
 import RuleEngine.CompareOperation.In;
@@ -26,6 +27,7 @@ import RuleEngine.LogicOperation.Or;
 import RuleEngine.OperationManager;
 import RuleEngine.interfaces.IMatchAction;
 import RuleTree.Rule;
+import RuleTree.RuleFilter;
 import RuleTree.RuleSet;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -57,8 +59,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private byte[] ruleData;
 
     private RuleSet ruleSet;
-    // 测试入口前置的白名单
-    private Rule ruleFront;
+    // 测试的白名单
+    private Rule ruleTest;
     //
     private Map<String, Object> filterCondition = new HashMap<>();
 
@@ -73,51 +75,87 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final static String RAWJSON = "{\n"
             + "  \"RuleSet\": [\n"
             + "    {\n"
-            + "      \"name\": \"front\",\n"
-            + "      \"Rule\": {\n"
-            + "        \"Or\": {\n"
-            + "          \"And\": {\n"
-            + "            \"In\": {\n"
-            + "              \"key\": \"editor\",\n"
-            + "              \"set\": [1, 2, 3]\n"
+            + "      \"name\": \"tinyVoice\",\n"
+            + "      \"Rule\": [\n"
+            + "        {\n"
+            + "          \"Equals\": [\n"
+            + "            {\n"
+            + "              \"key\": \"package\",\n"
+            + "              \"value\": \"'wechat.com'\"\n"
             + "            },\n"
-            + "            \"Greater\": {\n"
-            + "              \"key\": \"version\",\n"
+            + "            {\n"
+            + "              \"key\": \"ctrid\",\n"
+            + "              \"value\": \"3\"\n"
+            + "            },\n"
+            + "            {\n"
+            + "              \"key\": \"style\",\n"
+            + "              \"value\": \"2\"\n"
+            + "            },\n"
+            + "            {\n"
+            + "              \"key\": \"interaction\",\n"
+            + "              \"value\": \"1\"\n"
+            + "            }\n"
+            + "          ],\n"
+            + "          \"result\": {\n"
+            + "            \"s_text\": \"极简语音\",\n"
+            + "            \"action\": 3,\n"
+            + "            \"link\": \"http://www.baidu.com\"\n"
+            + "          }\n"
+            + "        },\n"
+            + "        {\n"
+            + "          \"Equals\": [\n"
+            + "            {\n"
+            + "              \"key\": \"package\",\n"
+            + "              \"value\": \"'com.huawei.appmarket'\"\n"
+            + "            },\n"
+            + "            {\n"
+            + "              \"key\": \"screen\",\n"
+            + "              \"value\": \"1\"\n"
+            + "            },\n"
+            + "            {\n"
+            + "              \"key\": \"style\",\n"
             + "              \"value\": \"2\"\n"
             + "            }\n"
-            + "          },\n"
-            + "          \"Equals\": {\n"
-            + "            \"key\": \"location\",\n"
-            + "            \"value\": \"'SH'\"\n"
+            + "          ],\n"
+            + "          \"result\": {\n"
+            + "            \"r_text\": \"语音搜索\",\n"
+            + "            \"s_text\": \"语音纠错\"\n"
             + "          }\n"
             + "        },\n"
-            + "        \"result\": {\n"
-            + "          \"color\": \"green\",\n"
-            + "          \"ver\": \"3\"\n"
-            + "        }\n"
-            + "      }\n"
-            + "    },\n"
-            + "    {\n"
-            + "      \"name\": \"voice\",\n"
-            + "      \"Rule\": {\n"
-            + "        \"And\": {\n"
-            + "          \"In\": {\n"
-            + "            \"key\": \"editor\",\n"
-            + "            \"set\": [4, 5, 6]\n"
-            + "          },\n"
-            + "          \"Greater\": {\n"
-            + "            \"key\": \"version\",\n"
-            + "            \"value\": \"3\"\n"
+            + "        {\n"
+            + "          \"Or\": [\n"
+            + "            {\n"
+            + "              \"Equals\": [\n"
+            + "                {\n"
+            + "                  \"key\": \"package\",\n"
+            + "                  \"value\": \"'wechat.com'\"\n"
+            + "                },\n"
+            + "                {\n"
+            + "                  \"key\": \"screen\",\n"
+            + "                  \"value\": \"1\"\n"
+            + "                }\n"
+            + "              ]\n"
+            + "            },\n"
+            + "            {\n"
+            + "              \"Greater\": [\n"
+            + "                {\n"
+            + "                  \"key\": \"version\",\n"
+            + "                  \"value\": \"1\"\n"
+            + "                }\n"
+            + "              ]\n"
+            + "            }\n"
+            + "          ],\n"
+            + "          \"result\": {\n"
+            + "            \"action\": 3,\n"
+            + "            \"link\": \"http://www.baidu.com\"\n"
             + "          }\n"
-            + "        },\n"
-            + "        \"result\": {\n"
-            + "          \"package\": \"com.baidu.input\",\n"
-            + "          \"style\": \"3\"\n"
             + "        }\n"
-            + "      }\n"
+            + "      ]\n"
             + "    }\n"
             + "  ]\n"
             + "}";
+
+
 
     // 白名单是否命中的回调
     IMatchAction iMatchAction = new IMatchAction() {
@@ -162,22 +200,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void parseRule() {
         try {
-            JSONObject jsonObject = new JSONObject(TEXTJSON);
+            JSONObject jsonObject = new JSONObject(RAWJSON);
 
             JSONArray rules = (JSONArray) jsonObject.get(SYMBOL_RULESET);
+            int ruleSize = rules.length();
+
             JSONObject rule = null;
             String ruleName = null;
-            JSONObject ruleObject = null;
+            JSONArray filters = null;
+
             ruleSet = new RuleSet();
-            for (int i = 0; i < rules.length(); i++) {
+
+            for (int i = 0; i < ruleSize; i++) {
+
                 rule = rules.getJSONObject(i);
                 ruleName = rule.optString(SYMBOL_NAME);
-                ruleObject = rule.optJSONObject(SYMBOL_RULE);
-                Operation operation = ExpressionParser.parse(ruleObject);
-                Rule mRule = new Rule.Builder().withName(ruleName).withExpression(operation).withAction(iMatchAction)
-                        .withResult(ruleObject.optJSONObject(SYMBOL_RESULT)).build();
-                if (ruleName.equals("front")) {
-                    ruleFront = mRule;
+
+                filters = (JSONArray) rule.get(SYMBOL_RULE);
+
+                int filterSize = filters.length();
+                List<RuleFilter> ruleFilters = new ArrayList<>();
+
+                for (int j = 0; j < filterSize; j++) {
+                    RuleFilter ruleFilter = ExpressionParser.parseFilter(filters.getJSONObject(j));
+                    ruleFilters.add(ruleFilter);
+                }
+                Rule mRule = new Rule.Builder().withName(ruleName).withFilters(ruleFilters).build();
+                if (ruleName.equals("tinyVoice")) {
+                    ruleTest = mRule;
                 }
                 ruleSet.addChild(mRule);
             }
@@ -191,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initView() {
         rawRuleFileTv = (TextView) findViewById(R.id.raw_white_list);
         parseBtn = (Button) findViewById(R.id.parse_btn);
-        resultTv = (TextView) findViewById(R.id.result);
+        resultTv = (TextView) findViewById(result);
         key1 = (TextView) findViewById(R.id.key1);
         value1 = (EditText) findViewById(R.id.value1);
         key2 = (TextView) findViewById(R.id.key2);
@@ -206,12 +256,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void eval() {
 
-        filterCondition.put(key1.getText().toString(), Integer.parseInt(value1.getText().toString()));
-        filterCondition.put(key2.getText().toString(), Integer.parseInt(value2.getText().toString()));
-        filterCondition.put(key3.getText().toString(), value3.getText().toString());
+        filterCondition.put("package", "'wechat.com'");
+        filterCondition.put("version", 2);
+        filterCondition.put("style", 3);
+        filterCondition.put("interaction", 1);
 
-        if (ruleFront.eval(filterCondition)) {
-            resultTv.setText("白名单命中(*^ω^*)");
+        if (ruleTest.eval(filterCondition)) {
+            resultTv.setText(ruleTest.getResult(filterCondition) != null ? ruleTest.getResult(filterCondition).toString() : "命中，没有result");
         } else {
             resultTv.setText("白名单不明中(T＿T)!!!");
         }

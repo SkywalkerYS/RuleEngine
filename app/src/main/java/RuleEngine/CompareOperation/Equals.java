@@ -25,11 +25,16 @@ public class Equals extends AbsCompareOperation {
 
     @Override
     public boolean match(Map<String, ?> inputData) {
-        Object obj = inputData.get(name);
+        return super.match(inputData);
+    }
+
+    protected boolean compare (String key, Map<String, ?> compareData, Map<String, ?> inputData) {
+        Object obj = inputData.get(key);
         if (obj == null) {
             return false;
         }
-        BaseType type = value;
+        BaseType type = (BaseType) compareData.get(key);
+
         if ((type.getType().equals(obj.getClass()))) {
             if (type.getType().equals(Integer.class)) {
                 if (obj == type.getValue()) {
@@ -47,14 +52,5 @@ public class Equals extends AbsCompareOperation {
         }
 
         return false;
-    }
-
-
-    public String getKey() {
-        return name;
-    }
-
-    public BaseType getValue() {
-        return value;
     }
 }
